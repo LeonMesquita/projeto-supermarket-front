@@ -1,13 +1,16 @@
 import { AuthForm } from "../../components/AuthForm";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signin } from "../../services/auth";
 import * as authAlerts from '../../handlers/handleAuthAlerts';
+import tokenContext from "../../contexts/tokenContext";
+
 
 export default function SignIn(){
     const [email, setEmail] = useState('test@gmail.com');
     const [password, setPassword] = useState('12345');
     const navigate = useNavigate();
+    const {setToken} = useContext(tokenContext);
 
     async function handleSignin(event){
         event.preventDefault();
@@ -23,6 +26,7 @@ export default function SignIn(){
             const token = await signin(body);
             authAlerts.succsessSigninAlert();
             console.log(token)
+            setToken(token);
             navigate('/home');
 
         }catch(e){

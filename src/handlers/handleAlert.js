@@ -10,7 +10,7 @@ const alertObject = (icon, titleText, text, timer) => {
         background: `#333333`,
         confirmButtonColor: `#1877F2`,
         padding: `10px`,
-        timer: timer,
+        timer: timer ?? 2000,
         timerProgressBar: true,
         timerProgressBar: `#ffffff`
     }

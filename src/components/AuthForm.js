@@ -14,6 +14,7 @@ export const AuthForm = styled.div`
     align-items: center;
     justify-content: center;
     background-image: url(https://www.eatthis.com/wp-content/uploads/sites/4/2020/07/supermarket-aisle-1.jpg?quality=82&strip=1);
+    background-size: cover;
     
 
     form{
