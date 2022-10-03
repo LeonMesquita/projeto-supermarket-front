@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 export default function App() {
   const [productsList, setProductsList] = useState([]);
+  const [cartProducts, setCartProducts] = useState([]);
   const [token, setToken] = useState(null);
 
 
@@ -19,7 +20,7 @@ export default function App() {
 }
   return (
     <tokenContext.Provider value={{token, setToken, authorization}}>
-      <productContext.Provider value={{productsList, setProductsList}}>
+      <productContext.Provider value={{productsList, setProductsList, cartProducts, setCartProducts}}>
         <BrowserRouter>
         <NavBar />
           <Routes>

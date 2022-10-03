@@ -5,6 +5,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import priceTag from '../../../assets/images/price_tag.png';
 import productContext from '../../../contexts/productContext';
 import AddOnCart from './AddOnCart';
+import CartArea from './CartArea';
 
 
 
@@ -27,31 +28,48 @@ export default function ProductsArea(){
     }, []);
 
     return(
-        <ProductsDiv>
-            {productsList.length === 0 ? null : productsList.map((product, index) =>
-            <ProductCard>
-                <img src={product.picture_url} alt=''/>
-                <p>{product.name}</p>
-                <button onClick={() => {
-                    setSelectedProduct(product)
-                    setProductIsSelected(true)
-                }}>
-                    <AiOutlineShoppingCart />
-                    <h1>CARRINHO</h1>
-                </button>
-                <div className='price-tag'>
-                    <h1>Por apenas</h1>
-                    <h2>R${product.price.toFixed(2)}</h2>
-                </div>
-            </ProductCard>)}
+        <MainDiv>
+            <ProductsDiv>
+                {productsList.length === 0 ? null : productsList.map((product, index) =>
+                <ProductCard>
+                    <img src={product.picture_url} alt=''/>
+                    <p>{product.name}</p>
+                    <button onClick={() => {
+                        setSelectedProduct(product)
+                        setProductIsSelected(true)
+                    }}>
+                        <AiOutlineShoppingCart />
+                        <h1>CARRINHO</h1>
+                    </button>
+                    <div className='price-tag'>
+                        <h1>Por apenas</h1>
+                        <h2>R${product.price.toFixed(2).replace('.', ',')}</h2>
+                    </div>
+                </ProductCard>)}
 
-            {productIsSelected ?
-        <AddOnCart product={selectedProduct} setProductIsSelected={setProductIsSelected}/>
-            : null}
-        </ProductsDiv>
+                {productIsSelected ?
+            <AddOnCart product={selectedProduct} setProductIsSelected={setProductIsSelected}/>
+                : null}
+            </ProductsDiv>
+
+            <CartArea>
+                
+            </CartArea>
+
+ 
+        </MainDiv>
     );
 
 }
+
+const MainDiv = styled.div`
+    display: flex;
+    width: 100%;
+    
+`
+
+
+
 
 
 const ProductsDiv = styled.div`
@@ -65,6 +83,8 @@ const ProductsDiv = styled.div`
     padding-left: 10px;
     padding-right: 10px;
     background: #F4F4F4;
+
+    
 
     @media (max-width: 900px){
         width: 100%;

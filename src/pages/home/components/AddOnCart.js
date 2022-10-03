@@ -2,15 +2,19 @@ import styled from "styled-components";
 import { AddProductOnCart } from "../../../services/purchase";
 import { useState, useContext } from "react";
 import tokenContext from "../../../contexts/tokenContext";
+import productContext from "../../../contexts/productContext";
 import handleAlert from "../../../handlers/handleAlert";
 import { useNavigate } from "react-router-dom";
+import handleGetCartProducts from "../../../handlers/handleGetCartProducts";
 
 export default function AddOnCart({product, setProductIsSelected}){
     const [amount, setAmount] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(product.price * amount);
     const {authorization, token} = useContext(tokenContext);
+    const {cartProducts, setCartProducts} = useContext(productContext);
     console.log(authorization)
     const navigate = useNavigate()
-    //icon, titleText, text, timer
+    let actualAmount = amount;
 
     async function handleAddProduct(){
         const body = {
@@ -19,7 +23,8 @@ export default function AddOnCart({product, setProductIsSelected}){
         }
         try{
             const response = await AddProductOnCart(body, authorization);
-            if (amount > 0) handleAlert('success', 'Adicionado!', 'O produto foi adicionado ao seu carrinho');
+            handleGetCartProducts(authorization, setCartProducts);
+            if(amount > 0) handleAlert('success', 'Adicionado!', 'O produto foi adicionado ao seu carrinho');
             setProductIsSelected(false);
         }catch(e){
             if(!token){
@@ -37,20 +42,29 @@ export default function AddOnCart({product, setProductIsSelected}){
                     <h1>Nome do produto:</h1>
                     <h2>{product.name}</h2>
                     <h1>Preço:</h1>
-                    <h3>R${product.price.toFixed(2)} à vista</h3>
+                    <h3>R${product.price.toFixed(2).replace('.', ',')} à vista</h3>
                 </div>
             </div>
 
             <div className="quantity-div">
                 <h1>Quantidade:</h1>
                 <button onClick={() => {
-                    if(amount > 0) setAmount(amount-1)
+                    if(amount > 0){
+                        setAmount(amount-1);
+                        actualAmount--;
+                        setTotalPrice(product.price * actualAmount);
+                    }
                 }}>-</button>
                 <h2>{amount}</h2>
                 <button className="add-button" onClick={() => {
-                    setAmount(amount+1)
+                    setAmount(amount+1);
+                    actualAmount++;
+                    setTotalPrice(product.price * actualAmount);
                 }}>+</button>
             </div>
+
+
+            <p>Preço total: R${totalPrice.toFixed(2).replace('.', ',')}</p>
 
            
             
@@ -76,6 +90,14 @@ const Container = styled.div`
 
     @media (max-width: 500px){
         min-width: 100%;
+    }
+
+    p{
+        margin: auto;
+        margin-top: 30px;
+        
+        margin-left: 20px;
+        font-size: 20px;
     }
 
     img{
@@ -167,7 +189,7 @@ const Container = styled.div`
         margin: auto;
         display: flex;
         flex-direction: column;
-        margin-top: 50px;
+        margin-top: 70px;
 
 
 
