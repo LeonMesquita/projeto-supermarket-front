@@ -15,3 +15,8 @@ export async function getAllProducts(){
 export async function getProductsByType(typeId){
     return await api.get(`/products/${typeId}`);
 }
+
+
+export async function getProductsByName(name){
+    return await api.get(`/products/name/${name}`);
+}

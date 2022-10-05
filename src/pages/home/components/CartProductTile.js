@@ -21,20 +21,6 @@ export default function CartProductTile({product}){
     );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const Product = styled.div`
     height: 50px;
     
@@ -44,14 +30,18 @@ const Product = styled.div`
     margin-left: 5px;
     margin-right: 5px;
     border-radius: 7px;
+    justify-content: space-between;
+    padding-right: 5px;
 
 
     img{
         height: 100%;
         border-top-left-radius: 7px;
         border-bottom-left-radius: 7px;
+        margin-right: 5px;
     
-        background-color: red;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 `
 

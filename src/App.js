@@ -10,6 +10,9 @@ import { useState } from 'react';
 export default function App() {
   const [productsList, setProductsList] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productIsSelected, setProductIsSelected] = useState(false);
+
   const [token, setToken] = useState(null);
 
 
@@ -20,7 +23,9 @@ export default function App() {
 }
   return (
     <tokenContext.Provider value={{token, setToken, authorization}}>
-      <productContext.Provider value={{productsList, setProductsList, cartProducts, setCartProducts}}>
+      <productContext.Provider value={{productsList, setProductsList,
+        cartProducts, setCartProducts, selectedProduct, setSelectedProduct,
+        productIsSelected, setProductIsSelected}}>
         <BrowserRouter>
         <NavBar />
           <Routes>

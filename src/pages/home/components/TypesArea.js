@@ -33,7 +33,7 @@ export default function TypesArea(){
 
 
     return(
-        <TypesDiv>
+        <TypesDiv  className='.sized-box'>
             {typesList.length === 0 ? null : typesList.map((type, index) => 
             <TypeCard onClick={() => handleFilterProducts(type.id)}>
                 <img src={type.picture_url} alt=''/>
@@ -51,6 +51,7 @@ const TypesDiv= styled.div`
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
+    overflow-x: scroll;
 
     @media(max-width: 700px){
         width: 100%;
@@ -70,6 +71,9 @@ const TypeCard = styled.div`
     flex-direction: column;
     align-items: center;
     border: solid 2px transparent;
+    margin-top: 70px;
+    margin-right: 20px;
+    
 
     &:hover{
         border: solid 2px #1cd60e;

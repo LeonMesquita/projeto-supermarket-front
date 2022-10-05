@@ -1,5 +1,8 @@
 import { NavBarStyle } from "./styled";
 import { useNavigate, useLocation } from "react-router-dom";
+import SearchBar from "../../pages/home/components/SearchBar";
+import UserArea from "./UserArea";
+import LogoArea from "./LogoArea";
 
 
 export default function NavBar(){
@@ -10,7 +13,10 @@ export default function NavBar(){
         location.pathname === '/' || location.pathname === '/sign-up' ? null :
     
         <NavBarStyle>
-            <h1>dewdfwefewfe</h1>
+            <LogoArea />
+            <SearchBar />
+            <UserArea />
+            
         </NavBarStyle>
     
 

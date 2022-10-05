@@ -12,3 +12,9 @@ export async function getProductsInCart(authorization){
     const response = await api.get("/cart/products", authorization);
     return response;
 }
+
+
+export async function getOneProductInCart(authorization, productId){
+    const response = await api.get(`/cart/products/${productId}`, authorization);
+    return response
+}

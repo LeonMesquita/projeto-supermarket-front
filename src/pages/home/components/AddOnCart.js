@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { AddProductOnCart } from "../../../services/purchase";
-import { useState, useContext } from "react";
+import { AddProductOnCart, getOneProductInCart } from "../../../services/purchase";
+import { useState, useContext, useEffect } from "react";
 import tokenContext from "../../../contexts/tokenContext";
 import productContext from "../../../contexts/productContext";
 import handleAlert from "../../../handlers/handleAlert";
@@ -15,6 +15,19 @@ export default function AddOnCart({product, setProductIsSelected}){
     console.log(authorization)
     const navigate = useNavigate()
     let actualAmount = amount;
+
+    async function handleGetOneProduct(){
+        try{
+            const promise = await getOneProductInCart(authorization, product.id);
+            const prodAmount = promise.data.amount;
+            if(prodAmount) {
+                setAmount(prodAmount);
+                setTotalPrice(product.price * prodAmount);
+            }
+        }catch(e){
+
+        }
+    }
 
     async function handleAddProduct(){
         const body = {
@@ -34,47 +47,85 @@ export default function AddOnCart({product, setProductIsSelected}){
 
         }
     }
+
+    useEffect(() => {
+        handleGetOneProduct();
+    },[product]);
+
+
+
+
+
+
+
     return(
-        <Container>
-            <div className="product-informations">
-                <img src={product.picture_url} alt=""/>
-                <div className="product-name">
-                    <h1>Nome do produto:</h1>
-                    <h2>{product.name}</h2>
-                    <h1>Preço:</h1>
-                    <h3>R${product.price.toFixed(2).replace('.', ',')} à vista</h3>
+        <MainDiv>
+            <LeftDiv onClick={() => setProductIsSelected(false)}>
+
+            </LeftDiv>
+            <Container>
+                <div className="product-informations">
+                    <img src={product.picture_url} alt=""/>
+                    <div className="product-name">
+                        <h1>Nome do produto:</h1>
+                        <h2>{product.name}</h2>
+                        <h1>Preço:</h1>
+                        <h3>R${product.price.toFixed(2).replace('.', ',')} à vista</h3>
+                    </div>
                 </div>
-            </div>
 
-            <div className="quantity-div">
-                <h1>Quantidade:</h1>
-                <button onClick={() => {
-                    if(amount > 0){
-                        setAmount(amount-1);
-                        actualAmount--;
+                <div className="quantity-div">
+                    <h1>Quantidade:</h1>
+                    <button onClick={() => {
+                        if(amount > 0){
+                            setAmount(amount-1);
+                            actualAmount--;
+                            setTotalPrice(product.price * actualAmount);
+                        }
+                    }}>-</button>
+                    <h2>{amount}</h2>
+                    <button className="add-button" onClick={() => {
+                        setAmount(amount+1);
+                        actualAmount++;
                         setTotalPrice(product.price * actualAmount);
-                    }
-                }}>-</button>
-                <h2>{amount}</h2>
-                <button className="add-button" onClick={() => {
-                    setAmount(amount+1);
-                    actualAmount++;
-                    setTotalPrice(product.price * actualAmount);
-                }}>+</button>
-            </div>
+                    }}>+</button>
+                </div>
+
+                {amount > 0 ? 
+                <p>Preço total: R${totalPrice.toFixed(2).replace('.', ',')}</p>
+                
+                : null}
 
 
-            <p>Preço total: R${totalPrice.toFixed(2).replace('.', ',')}</p>
+                
 
-           
             
-            <div className="buttons-area">
-                <button className="add-button" onClick={() => handleAddProduct()}>Adicionar ao carrinho</button>
-                <button onClick={() => setProductIsSelected(false)}>Voltar</button>
-            </div>
-        </Container>
+                
+                <div className="buttons-area">
+                    <button className="add-button" onClick={() => handleAddProduct()}>Adicionar ao carrinho</button>
+                    <button onClick={() => setProductIsSelected(false)}>Voltar</button>
+                </div>
+            </Container>
+        </MainDiv>
     );
 }
+
+
+const MainDiv = styled.div`
+display: flex;
+position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+
+`
+const LeftDiv = styled.div`
+    background-color: grey;
+    min-height: 100vh;
+    width: 100%;
+    opacity: 0.6;
+`
 
 
 const Container = styled.div`
@@ -83,10 +134,10 @@ const Container = styled.div`
     min-width: 500px;
    
     background-color: white;
-    position: fixed;
-    right: 0;
-    top: 0;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+
+    padding-top: 60px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    
 
     @media (max-width: 500px){
         min-width: 100%;

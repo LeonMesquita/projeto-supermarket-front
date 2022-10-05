@@ -6,19 +6,20 @@ import priceTag from '../../../assets/images/price_tag.png';
 import productContext from '../../../contexts/productContext';
 import AddOnCart from './AddOnCart';
 import CartArea from './CartArea';
+import FinishButton from './FinishButton';
 
 
 
 
 export default function ProductsArea(){
-    const {productsList, setProductsList} = useContext(productContext);
+    const {productsList, setProductsList, selectedProduct, setSelectedProduct,
+        productIsSelected, setProductIsSelected} = useContext(productContext);
     async function handleGetProducts(){
         const response = await getAllProducts();
         setProductsList(response.data)
     };
 
-    const [productIsSelected, setProductIsSelected] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+
 
 
 
@@ -53,8 +54,12 @@ export default function ProductsArea(){
             </ProductsDiv>
 
             <CartArea>
-                
+
             </CartArea>
+
+            <Finishbutton>
+                <FinishButton />
+            </Finishbutton>
 
  
         </MainDiv>
@@ -70,6 +75,30 @@ const MainDiv = styled.div`
 
 
 
+const Finishbutton = styled.div`
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 13px;
+    height: 80px;
+    background-color: #F4F4F4;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+
+
+    button{
+        height: 65px;
+        font-size: 30px;
+    }
+
+    @media (min-width: 580px){
+        display: none;
+    }
+`
+
 
 
 const ProductsDiv = styled.div`
@@ -83,11 +112,17 @@ const ProductsDiv = styled.div`
     padding-left: 10px;
     padding-right: 10px;
     background: #F4F4F4;
+    padding-bottom: 50px;
 
     
 
     @media (max-width: 900px){
         width: 100%;
+    }
+
+    @media (max-width: 580px){
+        padding-bottom: 120px;
+        
     }
     
 `
@@ -98,6 +133,7 @@ const ProductCard = styled.div`
     position: relative;
     border: solid 2px transparent;
     margin-left: 10px;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.25);
   
     border-radius: 20px;
     
