@@ -18,3 +18,7 @@ export async function getOneProductInCart(authorization, productId){
     const response = await api.get(`/cart/products/${productId}`, authorization);
     return response
 }
+
+export async function removeItemFromCart(productId, authorization){
+    const response = await api.delete(`/cart/${productId}`, authorization);
+}

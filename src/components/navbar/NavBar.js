@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import SearchBar from "../../pages/home/components/SearchBar";
 import UserArea from "./UserArea";
 import LogoArea from "./LogoArea";
+import styled from "styled-components";
 
 
 export default function NavBar(){
@@ -14,7 +15,12 @@ export default function NavBar(){
     
         <NavBarStyle>
             <LogoArea />
-            <SearchBar />
+                <NavSearch>
+                    <SearchBar/>
+                </NavSearch>
+                
+          
+            
             <UserArea />
             
         </NavBarStyle>
@@ -22,3 +28,10 @@ export default function NavBar(){
 
     );
 }
+
+
+const NavSearch = styled.div`
+    @media (max-width: 760px){
+        display: none;
+    }
+`

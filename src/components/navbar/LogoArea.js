@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
 
+
 export default function LogoArea(){
     return(
         <MainDiv>
+           
+
         </MainDiv>
     );
 }

@@ -11,3 +11,10 @@ body{
 ::-webkit-scrollbar {
     display: none;
 }
+
+
+.hide-searchbar{
+    @media(max-width: 760px){
+        display: none;
+    }
+}

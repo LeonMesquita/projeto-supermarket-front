@@ -44,19 +44,25 @@ export default function SearchBar(){
 
 const InputArea = styled.div`
     position: relative;
+
+
 `
 
 const Input = styled.input`
     margin: auto;
     height: 35px;
-    width: 300px;
+    width: 350px;
     border: none;
     border-radius: 5px;
+
+    @media (max-width: 375px){
+        width: 90vw;
+    }
 `
 
 
 const ResultDiv = styled.div`
-    width: 300px;
+    width: 350px;
     height: 100px;
     background-color: white;
     position: absolute;
@@ -85,5 +91,15 @@ const ResultDiv = styled.div`
         &:hover{
             background-color: lightgrey;
         }
+    }
+
+   
+
+    @media (max-width: 760px){
+        width: 350px;
+    }
+
+    @media (max-width: 375px){
+        width: 90vw;
     }
 `

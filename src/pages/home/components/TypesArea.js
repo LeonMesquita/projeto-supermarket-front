@@ -88,6 +88,11 @@ const TypeCard = styled.div`
         margin-top: 5px;
         margin-bottom: 3px;
     }
+
+    @media (max-width: 760px){
+        
+        margin-top: 20px;
+    }
     
 `;
 

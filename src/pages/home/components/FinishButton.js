@@ -1,10 +1,18 @@
 import styled from "styled-components";
+import { useState, useContext } from "react";
+import ConfirmationDialog from "../../../components/ConfirmationDialog";
+
 
 export default function FinishButton(){
+    const [showDialog, setShowDialog] = useState(false);
+
     return(
-        <Button>
+       <>
+        <Button onClick={() => setShowDialog(true)}>
             Finalizar Pedido
         </Button>
+        {showDialog ? <ConfirmationDialog message='aaa' onclickYes={() => {}} onclickNo={() => setShowDialog(false)}/> : null}
+       </>
     )
 }
 

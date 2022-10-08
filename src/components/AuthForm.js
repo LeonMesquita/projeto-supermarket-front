@@ -2,9 +2,6 @@ import styled from "styled-components";
 import supermarket from '../assets/images/supermarket.webp'
 
 
-// https://img.freepik.com/premium-photo/shopping-cart-blur-supermarket-background_36078-470.jpg?w=2000
-
-
 export const AuthForm = styled.div`
     margin: auto;
    
@@ -27,7 +24,9 @@ export const AuthForm = styled.div`
        padding-top: 60px;
        padding-bottom: 30px;
         justify-content: center;
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
         /* box-shadow: -4px 5px 5px 4px rgba(0, 0, 0, 0.25);
+        
 
         box-shadow: 5px 5px 5px 5px grey; */
     }
