@@ -1,17 +1,21 @@
 import styled from "styled-components";
 import { useState, useContext } from "react";
 import ConfirmationDialog from "../../../components/ConfirmationDialog";
+import ConfirmOrder from "../../cart/ConfirmOrder";
+import { useNavigate } from "react-router-dom";
 
 
 export default function FinishButton(){
     const [showDialog, setShowDialog] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const navigate = useNavigate();
 
     return(
        <>
-        <Button onClick={() => setShowDialog(true)}>
+        <Button onClick={() => navigate('/confirm')}>
             Finalizar Pedido
         </Button>
-        {showDialog ? <ConfirmationDialog message='aaa' onclickYes={() => {}} onclickNo={() => setShowDialog(false)}/> : null}
+        {/* {showConfirm ? <ConfirmOrder /> : null} */}
        </>
     )
 }

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import CartProductTile from "../home/components/CartProductTile";
 import { removeItemFromCart } from "../../services/purchase";
 import handleGetCartProducts from "../../handlers/handleGetCartProducts";
-
+import { useNavigate } from "react-router-dom";
 
 import { BsTrash } from "react-icons/bs";
 import FinishButton from "../home/components/FinishButton";
@@ -16,7 +16,7 @@ export default function CartPage(){
     const {cartProducts, setCartProducts} = useContext(productContext);
     const {authorization} = useContext(tokenContext);
     const [showDialog, setShowDialog] = useState(false);
-
+    const navigate = useNavigate();
 
     function confirm(productId){
         setShowDialog(true);
@@ -36,6 +36,16 @@ export default function CartPage(){
     }
     return(
         <Page>
+            {cartProducts.length === 0 ? 
+            <>
+                <h1>Você não possui nenhum item no carrinho</h1>
+                <Button>
+                <button className="goback-button" onClick={() => navigate('/home')}>Home</button>
+                </Button>
+            </>
+            :
+            
+            <>
             {cartProducts.map((product) => <Tile>
                 <CartProductTile product={product}/>
                 <DeleteButton onClick={() => handleRemoveItem(product.product_id)}>
@@ -46,6 +56,9 @@ export default function CartPage(){
             <Button>
                     <FinishButton onClick={() => setShowDialog(true)}/>
             </Button>
+            </>
+            }
+
 
             
         </Page>
@@ -75,9 +88,45 @@ const Button = styled.div`
 
 const Page = styled.div`
     
-    margin-top: 100px;
+    padding-top: 100px;
     padding-left: 10px;
     padding-right: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    
+    min-height: 100vh;
+    width: 100%;
+
+    h1{
+    
+        font-size: 20px;
+        text-align: center;
+        color: grey;
+        font-weight: 700;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 200px;
+    }
+
+    .goback-button{
+        background-color: #bc1212;
+        border: none;
+        margin: auto;
+        cursor: pointer;
+        
+       
+        
+        height: 40px;
+        border-radius: 5px;
+        color: white;
+        font-size: 25px;
+
+        &:hover{
+        background-color: #f90707;
+        }
+    }
 `
 const Tile = styled.div`
     margin: auto;

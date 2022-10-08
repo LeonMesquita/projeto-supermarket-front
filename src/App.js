@@ -8,6 +8,7 @@ import tokenContext from './contexts/tokenContext';
 import { useState } from 'react';
 import CartPage from './pages/cart/CartPage';
 import AddressForm from './pages/address/AddressForm';
+import ConfirmOrder from './pages/cart/ConfirmOrder';
 
 export default function App() {
   const [productsList, setProductsList] = useState([]);
@@ -36,6 +37,7 @@ export default function App() {
             <Route path='/home' element={<Home />}/>
             <Route path='/cart' element={<CartPage />}/>
             <Route path='/address' element={<AddressForm />}/>
+            <Route path='/confirm' element={<ConfirmOrder />} />
           </Routes>
         </BrowserRouter>
       </productContext.Provider>

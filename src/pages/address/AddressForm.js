@@ -37,7 +37,11 @@ export default function AddressForm(){
         try{
             const response = await createAddress(body, authorization);
             handleGetAddress();
-            setShowForm(false)
+            setStreet('');
+            setNumber('');
+            setDistrict('');
+            setNickname('');
+            setShowForm(false);
 
         }catch(e){
 
