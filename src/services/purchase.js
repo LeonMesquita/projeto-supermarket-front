@@ -22,3 +22,14 @@ export async function getOneProductInCart(authorization, productId){
 export async function removeItemFromCart(productId, authorization){
     const response = await api.delete(`/cart/${productId}`, authorization);
 }
+
+
+
+export async function createPurchase(body, authorization){
+    const response = await api.post(`/purchase`, body, authorization);
+}
+
+
+export async function resetCart(authorization){
+    const response = await api.post('/cart/reset', {}, authorization);
+}

@@ -3,12 +3,17 @@ import { useState, useContext, useEffect } from "react";
 import productContext from "../../contexts/productContext";
 import tokenContext from "../../contexts/tokenContext";
 import { getAddresses } from "../../services/user";
+import { createPurchase, resetCart } from "../../services/purchase";
+import { useNavigate } from "react-router-dom";
+import handleAlert from "../../handlers/handleAlert";
+
 
 export default function ConfirmOrder(){
     const {cartProducts} = useContext(productContext);
     const {authorization} = useContext(tokenContext);
     const [addressList, setAddressList] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
+    const navigate = useNavigate();
     let totalPrice = 0;
     cartProducts.forEach(product => totalPrice += product.price);
 
@@ -17,6 +22,21 @@ export default function ConfirmOrder(){
             const response = await getAddresses(authorization);
             setAddressList(response.data);
             
+        }catch(e){
+
+        }
+    }
+
+    async function handleCreatePurchase(){
+        const body = {
+            total_price: totalPrice,
+            address_id: selectedAddress
+        }
+        try{
+            const response = await createPurchase(body, authorization)
+            handleAlert('success', 'sucesso', 'Compra efetuada!')
+            const promise = await resetCart(authorization);
+            navigate('/home')
         }catch(e){
 
         }
@@ -33,6 +53,13 @@ export default function ConfirmOrder(){
                 <h1>Confirmar compra</h1>
                 <h2>Total a pagar: R${totalPrice.toFixed(2).replace('.', ',')}</h2>
                 <h3>Selecione o endereço de entrega:</h3>
+                {addressList.length === 0 ? 
+                <>
+                    <p>Você não possui nenhum endereço cadastrado</p>
+                    <button onClick={() => navigate('/address')}>Adicionar endereço</button>
+                </>
+                :
+                <>
                 <AddressArea>
                 {addressList.map(address =>
                 <Tile tileBackground={selectedAddress === address.id ? "#5ec45e" : "transparent"} onClick={() => setSelectedAddress(address.id)}>
@@ -40,8 +67,11 @@ export default function ConfirmOrder(){
                 </Tile>)}
                 </AddressArea>
                
-                    <button>Cancelar</button>
-                    <button>Confirmar</button>
+                    <button className="cancel-button" onClick={() => navigate('/home')}>Cancelar</button>
+                    <button onClick={handleCreatePurchase}>Confirmar</button>
+                </>
+                }
+
                 
             </div>
         </Page>
@@ -54,7 +84,7 @@ const AddressArea = styled.span`
     overflow-y: scroll;
     padding-left: 5px;
     padding-right: 5px;
-    margin-top: 10px;
+    margin-bottom: 40px;
 
 
 `
@@ -68,7 +98,7 @@ const Tile = styled.div`
         border: solid 1px #5ec45e;
         cursor: pointer;
         border-radius: 5px;
-        background-color: ${props => props.tileBackground};;
+        background-color: ${props => props.tileBackground};
         &:hover{
             background-color: #5ec45e;
         }
@@ -95,8 +125,9 @@ const Page = styled.div`
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: #03223F;
+        padding-bottom: 10px;
         
-        width: 80%;
+        width: 90%;
         max-width: 597px;
         
         max-width: 500px;
@@ -106,6 +137,30 @@ const Page = styled.div`
         background-color: white;
         border-radius: 20px;
 
+    }
+    h1{
+        font-weight: 700;
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    h2, h3{
+        align-self: baseline;
+        margin-left: 25px;
+        margin-bottom: 10px;
+        padding-left: 5px;
+    }
+
+
+    p{
+        text-align: center;
+        color: grey;
+        font-weight: 700;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     /* span{
@@ -118,32 +173,34 @@ const Page = styled.div`
     } */
 
     button{
-        width: 134px;
-        height: 37px;
-        background: #FFFFFF;
-        border-radius: 5px;
+        width: 90%;
+        height: 35px;
+        background-color: #5ec45e;
         border: none;
-        cursor: pointer;
-
-        font-family: 'Lato';
+        border-radius: 5px;
+        color: white;
+        font-size: 20px;
         font-weight: 700;
-        font-size: 18px;
-        color: #1877F2;
+        margin-top: 10px;
+        
+
+        &:hover{
+            background:  #33ea23;
+        }
     }
 
-    .yesbutton{
-        background: #1877F2;
-        color: white;
-        margin-left: 27px;
 
+    .cancel-button{
+        
+        background-color: #bc1212;
+
+        &:hover{
+        background-color: #f90707;
+        }
     }
 
     
 
-    @media (max-width: 375px){
-        button{
-            width: 40%;
-        }
-    }
+
 
 `

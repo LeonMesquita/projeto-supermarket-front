@@ -82,16 +82,19 @@ const Finishbutton = styled.div`
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 13px;
-    height: 80px;
+    height: 70px;
+   
     background-color: #F4F4F4;
     display: flex;
     align-items: center;
+    justify-content: center;
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
 
 
     button{
-        height: 65px;
+        height: 50px;
         font-size: 30px;
+        max-width: 400px;
     }
 
     @media (min-width: 580px){
@@ -128,6 +131,7 @@ const ProductsDiv = styled.div`
 `
 
 const ProductCard = styled.div`
+    padding-top: 10px;
     height: 230px;
     width: 150px;
     position: relative;

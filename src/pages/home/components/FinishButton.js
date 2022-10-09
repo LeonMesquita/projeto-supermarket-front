@@ -3,19 +3,23 @@ import { useState, useContext } from "react";
 import ConfirmationDialog from "../../../components/ConfirmationDialog";
 import ConfirmOrder from "../../cart/ConfirmOrder";
 import { useNavigate } from "react-router-dom";
+import productContext from "../../../contexts/productContext";
 
 
 export default function FinishButton(){
     const [showDialog, setShowDialog] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    const {cartProducts, setCartProducts} = useContext(productContext)
     const navigate = useNavigate();
 
     return(
        <>
-        <Button onClick={() => navigate('/confirm')}>
+        <Button onClick={() => navigate('/confirm')} disabled={cartProducts.length === 0 ? true : false}
+        background={cartProducts.length === 0 ? 'grey' : '#5ec45e'}
+        hoverBackground={cartProducts.length === 0 ? 'grey' : '#33ea23'}
+        >
             Finalizar Pedido
         </Button>
-        {/* {showConfirm ? <ConfirmOrder /> : null} */}
        </>
     )
 }
@@ -23,7 +27,7 @@ export default function FinishButton(){
 
 
 const Button = styled.button`
-    background-color: #5ec45e;
+    background-color: ${props => props.background};
     border: none;
     width: 100%;
     margin-top: 15px;
@@ -38,6 +42,7 @@ const Button = styled.button`
 
     &:hover{
                 background:  #33ea23;
+                background: ${props => props.hoverBackground};
             }
 
 
