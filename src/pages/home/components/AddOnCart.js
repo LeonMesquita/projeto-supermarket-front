@@ -5,6 +5,7 @@ import tokenContext from "../../../contexts/tokenContext";
 import productContext from "../../../contexts/productContext";
 import handleAlert from "../../../handlers/handleAlert";
 import { useNavigate } from "react-router-dom";
+import handleAuthenticationError from "../../../handlers/handleAuthenticationError";
 import handleGetCartProducts from "../../../handlers/handleGetCartProducts";
 
 export default function AddOnCart({product, setProductIsSelected}){
@@ -141,6 +142,9 @@ const Container = styled.div`
 
     @media (max-width: 500px){
         min-width: 100%;
+        img{
+            height: 200px;
+        }
     }
 
     p{
@@ -154,11 +158,15 @@ const Container = styled.div`
     img{
         height: 300px;
         width: 250px;
-        border: solid 1px black;
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
         border-radius: 20px;
         margin-left: 20px;
-        margin-top: 50px;
+        border: solid 2px #5ec45e;
+        
         padding: 10px;
+
+
+
     }
 
     .product-informations{
@@ -168,7 +176,7 @@ const Container = styled.div`
     }
 
     .product-name{
-        margin-top: 100px;
+        margin-top: 50px;
         
         h1{
             font-weight: 700;

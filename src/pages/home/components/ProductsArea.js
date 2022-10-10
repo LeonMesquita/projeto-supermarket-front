@@ -132,7 +132,7 @@ const ProductsDiv = styled.div`
 
 const ProductCard = styled.div`
     padding-top: 10px;
-    height: 230px;
+    height: 260px;
     width: 150px;
     position: relative;
     border: solid 2px transparent;
@@ -150,7 +150,7 @@ const ProductCard = styled.div`
     }
 
     img{
-        height: 70%;
+        height: 150px;
         width: 100%;
         border-radius: 20px;
     }
@@ -167,7 +167,10 @@ const ProductCard = styled.div`
         background-color: #bc1212;
         border: none;
         margin-top: 10px;
-        margin-bottom: 8px;
+        position: absolute;
+        bottom: 8px;
+        left: 15px;
+        
         border-radius: 5px;
         width: 80%;
         height: 35px;

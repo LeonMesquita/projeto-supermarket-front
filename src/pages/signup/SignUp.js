@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as authAlerts from '../../handlers/handleAuthAlerts';
 import { signup } from "../../services/auth";
 import LoaderSpinner from "../../components/LoaderSpinner";
+import logo from '../../assets/images/logo.png'
 
 
 export default function SignUp(){
@@ -41,6 +42,7 @@ export default function SignUp(){
     return(
         <AuthForm>
             <form onSubmit={handleSignUp}>
+                <img src={logo} alt="logo"/>
                 <input disabled={isLoading ? true : false}   placeholder="nome" value={name} onChange={e => setName(e.target.value)}/>
                 <input disabled={isLoading ? true : false}   placeholder="email" value={email} onChange={e => setEmail(e.target.value)}/>
                 <input disabled={isLoading ? true : false}   placeholder="senha" type="password" value={password} onChange={e => setPassword(e.target.value)}/>

@@ -5,11 +5,12 @@ import { signin } from "../../services/auth";
 import * as authAlerts from '../../handlers/handleAuthAlerts';
 import tokenContext from "../../contexts/tokenContext";
 import LoaderSpinner from "../../components/LoaderSpinner";
-
+import styled from "styled-components";
+import logo from '../../assets/images/logo.png'
 
 export default function SignIn(){
-    const [email, setEmail] = useState('test@gmail.com');
-    const [password, setPassword] = useState('12345');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const {setToken} = useContext(tokenContext);
     const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +44,9 @@ export default function SignIn(){
     }
     return(
         <AuthForm>
+            
             <form onSubmit={handleSignin}>
+            <img src={logo} alt="logo"/>
                 <input disabled={isLoading ? true : false}  placeholder="email" value={email} onChange={e => setEmail(e.target.value)}/>
                 <input disabled={isLoading ? true : false}   placeholder="senha" value={password} onChange={e => setPassword(e.target.value)}/>
                 <button disabled={isLoading ? true : false}  >{isLoading ? <LoaderSpinner /> : 'Confirmar'}</button>

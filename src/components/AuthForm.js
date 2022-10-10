@@ -21,7 +21,7 @@ export const AuthForm = styled.div`
         flex-direction: column;
         align-items: center;
         width: 500px;
-       padding-top: 60px;
+       padding-top: 20px;
        padding-bottom: 30px;
         justify-content: center;
         box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
@@ -74,6 +74,13 @@ export const AuthForm = styled.div`
         form{
             width: 90%;
         }
+    }
+
+
+    img{
+        height: 60px;
+       border-radius: 20px;
+       margin-bottom: 40px;
     }
 
 `

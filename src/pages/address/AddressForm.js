@@ -2,16 +2,21 @@ import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { getAddresses, createAddress } from "../../services/user";
 import tokenContext from "../../contexts/tokenContext";
+import handleAlert from "../../handlers/handleAlert";
+import { useNavigate } from "react-router-dom";
+import LoaderSpinner from "../../components/LoaderSpinner";
+import { handleIsEmpty } from "../../handlers/handleAuthAlerts";
 
 export default function AddressForm(){
     const [addressList, setAddressList] = useState([]);
-    const {authorization} = useContext(tokenContext);
+    const {authorization, token} = useContext(tokenContext);
     const [showForm, setShowForm] = useState(false);
     const [street, setStreet] = useState('');
     const [number, setNumber] = useState('');
     const [district, setDistrict] = useState('');
     const [nickname, setNickname] = useState('');
-
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     async function handleGetAddress(){
         try{
@@ -23,16 +28,28 @@ export default function AddressForm(){
         }
     }
 
+    function handleAuthenticationError(message){
+        if(!token){
+            handleAlert('error', 'Não autenticado!', `${message}`);
+            navigate('/');
+        }
+    }
+
+
+
 
 
     async function handleCreateAddress(e){
         e.preventDefault();
+        if(street === '' || number === '' || district === '' || nickname === '') handleIsEmpty();
         const body = {
             street,
             number: Number(number),
             district,
             nickname
         }
+
+        setIsLoading(true)
 
         try{
             const response = await createAddress(body, authorization);
@@ -41,10 +58,11 @@ export default function AddressForm(){
             setNumber('');
             setDistrict('');
             setNickname('');
+            setIsLoading(false)
             setShowForm(false);
 
         }catch(e){
-
+            setIsLoading(false)
         }
 
 
@@ -67,7 +85,10 @@ export default function AddressForm(){
             }
 
             <AddButton>
-                <button onClick={() => setShowForm(true)}>
+                <button onClick={() => {
+                    handleAuthenticationError('Você precisa estar logado para adicionar um endereço');
+                    setShowForm(true)
+                }}>
                     Adicionar endereço
                 </button>
                 
@@ -76,11 +97,11 @@ export default function AddressForm(){
             {showForm ? 
             <Form>
                 <form onSubmit={handleCreateAddress}>
-                    <input placeholder="Nome da rua" value={street} onChange={(e) => setStreet(e.target.value)}/>
-                    <input placeholder="Número" value={number} onChange={(e) => setNumber(e.target.value)}/>
-                    <input placeholder="Bairro" value={district} onChange={(e) => setDistrict(e.target.value)}/>
-                    <input placeholder="Apelido (ex: casa)" value={nickname} onChange={(e) => setNickname(e.target.value)}/>
-                    <button>Confirmar</button>
+                    <input disabled={isLoading ? true : false} placeholder="Nome da rua" value={street} onChange={(e) => setStreet(e.target.value)}/>
+                    <input type='number' disabled={isLoading ? true : false} placeholder="Número" value={number} onChange={(e) => setNumber(e.target.value)}/>
+                    <input disabled={isLoading ? true : false} placeholder="Bairro" value={district} onChange={(e) => setDistrict(e.target.value)}/>
+                    <input disabled={isLoading ? true : false} placeholder="Apelido (ex: casa)" value={nickname} onChange={(e) => setNickname(e.target.value)}/>
+                    <button disabled={isLoading ? true : false}>{isLoading ? <LoaderSpinner /> : `Confirmar`}</button>
                     <button className="cancel-button" onClick={() => setShowForm(false)}>Cancelar</button>
                 </form>
             </Form> 
