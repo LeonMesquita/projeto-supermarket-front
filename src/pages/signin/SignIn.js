@@ -9,8 +9,8 @@ import styled from "styled-components";
 import logo from '../../assets/images/logo.png'
 
 export default function SignIn(){
-    const [email, setEmail] = useState('teste2@gmail.com');
-    const [password, setPassword] = useState('12345');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const {setToken} = useContext(tokenContext);
     const [isLoading, setIsLoading] = useState(false);
