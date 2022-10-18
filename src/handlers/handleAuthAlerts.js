@@ -14,8 +14,8 @@ export const handleIsEmpty = () => {
 export const succsessSigninAlert = () => {
 handleAlert(
     'success',
-    'Login realizado com sucesso!',
-    'Entrando em sua conta',
+    'Login concluído!',
+    '',
     2000
 )
 }
@@ -23,8 +23,8 @@ handleAlert(
 export const succsessSignupAlert = () => {
     handleAlert(
         'success',
-        'Signup realizado com sucesso!',
-        'Sua conta foi criada',
+        'Signup concluído!',
+        '',
         2000
     )
 }

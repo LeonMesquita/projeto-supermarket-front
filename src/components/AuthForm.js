@@ -33,8 +33,11 @@ export const AuthForm = styled.div`
 
     input{
         width: 90%;
-        height: 30px;
+        height: 40px;
         margin-bottom: 15px;
+        border-radius: 5px;
+        border: none;
+        background-color: #ede8e8;
         font-style: italic;
         text-indent:15px;
         &::placeholder{

@@ -7,16 +7,23 @@ import productContext from '../../../contexts/productContext';
 import AddOnCart from './AddOnCart';
 import CartArea from './CartArea';
 import FinishButton from './FinishButton';
+import LoaderSpinner from '../../../components/LoaderSpinner';
 
 
 
 
 export default function ProductsArea(){
+    const [isLoading, setIsLoading] = useState(true);
     const {productsList, setProductsList, selectedProduct, setSelectedProduct,
         productIsSelected, setProductIsSelected} = useContext(productContext);
     async function handleGetProducts(){
-        const response = await getAllProducts();
-        setProductsList(response.data)
+        try{
+            const response = await getAllProducts();
+            setProductsList(response.data);
+            setIsLoading(false)
+        }catch(e){
+
+        }
     };
 
 
@@ -30,7 +37,10 @@ export default function ProductsArea(){
 
     return(
         <MainDiv>
-            <ProductsDiv>
+
+            {isLoading ? <LoaderSpinner loaderType='oval'/> : 
+            <>
+                        <ProductsDiv>
                 {productsList.length === 0 ? null : productsList.map((product, index) =>
                 <ProductCard>
                     <img src={product.picture_url} alt=''/>
@@ -60,6 +70,9 @@ export default function ProductsArea(){
             <Finishbutton>
                 <FinishButton />
             </Finishbutton>
+            
+            </>}
+
 
  
         </MainDiv>

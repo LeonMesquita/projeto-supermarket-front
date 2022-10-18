@@ -6,6 +6,7 @@ import { getAddresses } from "../../services/user";
 import { createPurchase, resetCart } from "../../services/purchase";
 import { useNavigate } from "react-router-dom";
 import handleAlert from "../../handlers/handleAlert";
+import {Oval } from  'react-loader-spinner'
 
 
 export default function ConfirmOrder(){
@@ -13,9 +14,10 @@ export default function ConfirmOrder(){
     const {authorization} = useContext(tokenContext);
     const [addressList, setAddressList] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     let totalPrice = 0;
-    cartProducts.forEach(product => totalPrice += product.price);
+    cartProducts.forEach(product => totalPrice += (product.price * product.amount));
 
     async function handleGetAddress(){
         try{
@@ -25,6 +27,7 @@ export default function ConfirmOrder(){
         }catch(e){
 
         }
+       setIsLoading(false);
     }
 
     async function handleCreatePurchase(){
@@ -53,7 +56,7 @@ export default function ConfirmOrder(){
                 <h1>Confirmar compra</h1>
                 <h2>Total a pagar: R${totalPrice.toFixed(2).replace('.', ',')}</h2>
                 <h3>Selecione o endereço de entrega:</h3>
-                {addressList.length === 0 ? 
+                {addressList.length === 0 && !isLoading? 
                 <>
                     <p>Você não possui nenhum endereço cadastrado</p>
                     <button onClick={() => navigate('/address')}>Adicionar endereço</button>
@@ -61,10 +64,22 @@ export default function ConfirmOrder(){
                 :
                 <>
                 <AddressArea>
-                {addressList.map(address =>
-                <Tile tileBackground={selectedAddress === address.id ? "#5ec45e" : "transparent"} onClick={() => setSelectedAddress(address.id)}>
-                    {address.nickname}
-                </Tile>)}
+                    {
+                        isLoading ? 
+                        <Oval 
+                        height="70"
+                        width="70"
+                        color='#5ec45e'
+                        secondaryColor='grey'
+                        ariaLabel='loading'
+                        />
+                        : 
+                        addressList.map(address =>
+                            <Tile tileBackground={selectedAddress === address.id ? "#5ec45e" : "transparent"} onClick={() => setSelectedAddress(address.id)}>
+                                {address.nickname}
+                            </Tile>)
+                    }
+                
                 </AddressArea>
                
                     <button className="cancel-button" onClick={() => navigate('/home')}>Cancelar</button>
@@ -84,13 +99,20 @@ const AddressArea = styled.span`
     overflow-y: scroll;
     padding-left: 5px;
     padding-right: 5px;
+
     margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 20px;
 
 
 `
 
 
 const Tile = styled.div`
+        width: 100%;
         padding-top: 3px;
         padding-bottom: 3px;
         padding-left: 3px;

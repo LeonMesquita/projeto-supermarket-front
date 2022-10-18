@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export default function LoaderSpinner({loaderType}){
     return(
-        // !loaderType ?
+        !loaderType ?
         <Loader>
         <ThreeDots 
             height="70"
@@ -15,16 +15,16 @@ export default function LoaderSpinner({loaderType}){
         />            
         </Loader>
 
-        // :
-        // <Loader>
-        // <Oval 
-        // height="100"
-        // width="100"
-        // color='#FCCB6F'
-        // secondaryColor='grey'
-        // ariaLabel='loading'
-        // />
-        // </Loader>
+        :
+        <OvalLoader>
+            <Oval 
+            height="100"
+            width="100"
+            color='#5ec45e'
+            secondaryColor='grey'
+            ariaLabel='loading'
+            />
+        </OvalLoader>
     
 
     );
@@ -37,4 +37,13 @@ const Loader = styled.div`
    justify-content: center;
    
    height: 100%;
+`
+
+const OvalLoader = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   
+   height: 400px;
+   width: 100%;
 `

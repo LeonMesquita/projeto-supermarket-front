@@ -7,15 +7,13 @@ const alertObject = (icon, titleText, text, timer) => {
         titleText: titleText,
         text: text,
         color: `#FFFFFF`,
-        background: `#333333`,
-        confirmButtonColor: `#1877F2`,
+        background: `#212129`,
+        confirmButtonColor: `#5ec45e`,
         padding: `10px`,
-        timer: timer ?? 2000,
-        timerProgressBar: true,
-        timerProgressBar: `#ffffff`
+        timer: timer ?? 2000
     }
 }
-
+//333333   #323949
 export default function handleAlert(icon, titleText, text, timer){
     return Swal.fire(alertObject(icon, titleText, text, timer)) 
 };

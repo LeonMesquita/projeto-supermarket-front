@@ -47,7 +47,7 @@ export default function SignUp(){
                 <input disabled={isLoading ? true : false}   placeholder="email" value={email} onChange={e => setEmail(e.target.value)}/>
                 <input disabled={isLoading ? true : false}   placeholder="senha" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
                 <input disabled={isLoading ? true : false}   placeholder="confirme a senha" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
-                <button disabled={isLoading ? true : false}  >{isLoading ? <LoaderSpinner /> : 'Confirmar'}</button>
+                <button disabled={isLoading ? true : false}  >{isLoading ? <LoaderSpinner /> : 'Cadastrar'}</button>
 
                 <Link to='/'>
                     Já tem uma conta? Entrar

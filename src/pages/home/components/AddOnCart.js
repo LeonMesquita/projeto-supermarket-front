@@ -7,12 +7,14 @@ import handleAlert from "../../../handlers/handleAlert";
 import { useNavigate } from "react-router-dom";
 import handleAuthenticationError from "../../../handlers/handleAuthenticationError";
 import handleGetCartProducts from "../../../handlers/handleGetCartProducts";
+import LoaderSpinner from '../../../components/LoaderSpinner';
 
 export default function AddOnCart({product, setProductIsSelected}){
     const [amount, setAmount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(product.price * amount);
     const {authorization, token} = useContext(tokenContext);
     const {cartProducts, setCartProducts} = useContext(productContext);
+    const [isLoading, setIsLoading] = useState(false);
     console.log(authorization)
     const navigate = useNavigate()
     let actualAmount = amount;
@@ -35,6 +37,7 @@ export default function AddOnCart({product, setProductIsSelected}){
             productId: product.id,
             amount
         }
+        setIsLoading(true);
         try{
             const response = await AddProductOnCart(body, authorization);
             handleGetCartProducts(authorization, setCartProducts);
@@ -47,6 +50,8 @@ export default function AddOnCart({product, setProductIsSelected}){
             }
 
         }
+        setIsLoading(false);
+
     }
 
     useEffect(() => {
@@ -103,7 +108,7 @@ export default function AddOnCart({product, setProductIsSelected}){
             
                 
                 <div className="buttons-area">
-                    <button className="add-button" onClick={() => handleAddProduct()}>Adicionar ao carrinho</button>
+                    <button disabled={isLoading} className="add-button" onClick={() => handleAddProduct()}>{isLoading ? <LoaderSpinner /> : 'Adicionar ao carrinho'}</button>
                     <button onClick={() => setProductIsSelected(false)}>Voltar</button>
                 </div>
             </Container>
@@ -140,7 +145,7 @@ const Container = styled.div`
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
     
 
-    @media (max-width: 500px){
+    @media (max-width: 700px){
         min-width: 100%;
         img{
             height: 200px;
@@ -164,6 +169,14 @@ const Container = styled.div`
         border: solid 2px #5ec45e;
         
         padding: 10px;
+
+        /* @media (max-width: 700px){
+       
+      
+            height: 200px;
+            width: 170px;
+       
+    } */
 
 
 
